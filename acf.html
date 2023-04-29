@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>ACF</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="sweet-alert2/sweetalert2.min.css">
+  <style type="text/css">
+    .acf-manager-field-list {
+      padding: 0;
+    }
+    .acf-manager-field-list .list-group {
+      border-radius: 0;
+      border: none;
+    }
+    .acf-manager-field-list .list-group .list-group-item {
+      border-top: none;
+    }
+    .acf-manager-field-list .list-group .list-group-item:last-of-type {
+      border-bottom: none;
+    }
+    li.onex-acf-item:hover {
+      cursor: pointer;
+    }
+    .acf-name-card-header {
+      padding: 0;
+    }
+    .onex-acf-name-input-box {
+      border: none;
+      padding: 12px;
+    }
+    .onex-acf-name-input-box:focus {
+      border: none;
+      border-color: none;
+      -webkit-box-shadow: none;
+      -moz-box-shadow: none;
+      box-shadow: none;
+    }
+    .onex-acf-field-settings-rowbox {
+      padding-bottom: 20px;
+      border-bottom: 1px dashed #ccc;
+    }
+    .onex-acf-field-settings-rowbox:last-child {
+      border-bottom: none;
+    }
+    .onex-acf-field-settings-rowbox:not(:first-child) {
+      margin-top: 16px;
+    }
+    .onex-acf-field-settings-rowbox .settings-checkbox {
+      margin-top: 14px;
+    }
+    .settings-delete {
+      margin-top: 14px;
+      text-align: right;
+    }
+    .settings-delete .fa {
+      color: #db0a0a;
+    }
+    .onex-acf-init-text {
+      text-align: center;
+      margin-top: 35px;
+    }
+    .onex-acf-init-text span {
+      font-size: 40px;
+      font-weight: bold;
+      color: #ddd;
+    }
+    .onex-remove-option-btn .fa {
+      color: #db0a0a;
+    }
+    .option-area label, .param-area label {
+      font-size: 14px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container-fluid p-5 bg-primary text-white text-center">
+  <h1>My First Bootstrap Page</h1>
+  <p>Resize this responsive page to see the effect!</p> 
+</div>
+  
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-sm-4">
+      <h3>Column 1</h3>
+      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit...</p>
+      <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris...</p>
+    </div>
+    <div class="col-sm-4">
+      <h3>Column 2</h3>
+      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit...</p>
+      <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris...</p>
+    </div>
+    <div class="col-sm-4">
+      <h3>Column 3</h3>        
+      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit...</p>
+      <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris...</p>
+    </div>
+  </div>
+
+  <!-- ONEX ACF -->
+  <div class="row mt-2">
+    <div class="col-sm-12">
+      <div class="card">
+        <div class="card-header">
+          <div class="row">
+            <div class="col-sm-3">
+              <button type="button" id="onexAcfActionBtn" class="btn btn-primary">Add New ACF</button>
+            </div>
+            <div class="col-sm-6"></div>
+            <div class="col-sm-3"></div>
+          </div>
+        </div>
+        <div class="card-body">
+          <table class="table table-bordered table-striped">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>ACF NAME</th>
+            <th>STATUS</th>
+            <th>#</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td>Rating Manager</td>
+            <td>Active</td>
+            <td>[...]</td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>Gallery Manager</td>
+            <td>Active</td>
+            <td>[...]</td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td>Generic CTA</td>
+            <td>Inactive</td>
+            <td>[...]</td>
+          </tr>
+          <tr>
+            <td>4</td>
+            <td>FAQ Manager</td>
+            <td>Active</td>
+            <td>[...]</td>
+          </tr>
+        </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+  <!-- Modal -->
+  <div class="modal fade" id="onexAcfManagerModal" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-xl modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="onexAcfManagerModalTitle">Create New ACF</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body" id="onexAcfManagerModalBody">
+          <form name="onex-acf-manager-modal-frm" id="onexAcfManagerModalFrm" action="" method="POST">
+            <div class="row">
+            <div class="col-sm-3">
+              <div class="card">
+                <div class="card-header">ACF Fields</div>
+                <div class="card-body acf-manager-field-list">
+                  <ul class="list-group" id="onexAcfItems"></ul>
+                </div>
+                <!--div class="card-footer"></div-->
+              </div>
+            </div>
+            <div class="col-sm-9">
+              <div class="card">
+                <div class="card-header acf-name-card-header">
+                  <div class="form-group">
+                    <!-- label for="onexAcfName">ACF Name: <em>*</em></label -->
+                    <input type="text" id="onexAcfName" name="onex_acf_name" class="form-control mt-1 onex-acf-name-input-box" placeholder="Enter ACF Name" required="required" autofocus />
+                  </div>
+                </div>
+                <div class="card-body" id="onexAcfFieldSettings"></div>
+                <!--div class="card-footer"></div-->
+              </div>
+            </div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" id="onexAcfManagerSaveChangesBtn">Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- End Modal -->
+  <!-- END ONEX ACF -->
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js" integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
+<script src="jquery-validate/jquery.validate.min.js"></script>
+<script src="jquery-validate/additional-methods.min.js"></script> -->
+<script src="sweet-alert2/sweetalert2.all.min.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() {
+    var onexAcfItemsFieldsHtml = '';
+    var onexAcfFieldPrefix = 'onexAcfField';
+    var onexAcfFieldTypeObj = {};
+    var acfItemClickTime = 0;
+    var acfAddMoreClickTime = 0;
+    onexAcfFieldTypeObj = [
+      {"field_id": 1, "display_order": 1, "field_name": "textbox", "id": "textInputBox", "field_type": "single_line_input", "is_option": false, "min_option": 0, "is_repeater": true, "is_param_exist": false},
+      {"field_id": 2, "display_order": 2, "field_name": "textarea", "id": "textareaInputBox", "field_type": "multi_line_input", "is_option": false, "min_option": 0, "is_repeater": true, "is_param_exist": false},
+      {"field_id": 3, "display_order": 3, "field_name": "editor", "id": "editorInputBox", "field_type": "editor_input", "is_option": false, "min_option": 0, "is_repeater": true, "is_param_exist": false},
+      {"field_id": 4, "display_order": 4, "field_name": "file upload", "id": "fileUploadInputBox", "field_type": "file_input", "is_option": false, "min_option": 0, "is_repeater": true, "is_param_exist": false},
+      {"field_id": 5, "display_order": 5, "field_name": "number box", "id": "numberInputBox", "field_type": "number_input", "is_option": false, "min_option": 0, "is_repeater": true, "is_param_exist": true},
+      {"field_id": 6, "display_order": 6, "field_name": "email box", "id": "emailInputBox", "field_type": "email_input", "is_option": false, "min_option": 0, "is_repeater": true, "is_param_exist": false},
+      {"field_id": 7, "display_order": 11, "field_name": "date box", "id": "dateInputBox", "field_type": "date_input", "is_option": false, "min_option": 0, "is_repeater": true, "is_param_exist": true},
+      {"field_id": 8, "display_order": 10, "field_name": "url box", "id": "urlInputBox", "field_type": "url_input", "is_option": false, "min_option": 0, "is_repeater": true, "is_param_exist": false},
+      {"field_id": 9, "display_order": 14, "field_name": "range slider", "id": "rangeSliderInputBox", "field_type": "range_input", "is_option": false, "min_option": 0, "is_repeater": true, "is_param_exist": true},
+      {"field_id": 10, "display_order": 13, "field_name": "color picker", "id": "colorPickerInputBox", "field_type": "color_input", "is_option": false, "min_option": 0, "is_repeater": true, "is_param_exist": false},
+      {"field_id": 11, "display_order": 7, "field_name": "radio option", "id": "radioOptionInputBox", "field_type": "radio_input", "is_option": true, "min_option": 2, "is_repeater": false, "is_param_exist": false},
+      {"field_id": 12, "display_order": 8, "field_name": "checkbox option", "id": "checkboxOptionInputBox", "field_type": "check_input", "is_option": true, "min_option": 1, "is_repeater": false, "is_param_exist": false},
+      {"field_id": 13, "display_order": 9, "field_name": "dropdown option", "id": "dropdownOptionInputBox", "field_type": "dropdown_input", "is_option": true, "min_option": 2, "is_repeater": true, "is_param_exist": false},
+      {"field_id": 14, "display_order": 12, "field_name": "time box", "id": "timeInputBox", "field_type": "time_input", "is_option": false, "min_option": 0, "is_repeater": true, "is_param_exist": false}
+    ];
+    if (onexAcfFieldTypeObj.length) {
+      onexAcfFieldTypeObj = onexAcfFieldTypeObj.sort((obj1, obj2) => {
+        if (obj1.display_order < obj2.display_order) {
+          return -1;
+        }
+      });
+      onexAcfFieldTypeObj.map(function (item, index) {
+        var _fieldName = item.field_name.toUpperCase();
+        onexAcfItemsFieldsHtml += `
+          <li class="list-group-item d-flex justify-content-between align-items-center onex-acf-item" id="${onexAcfFieldPrefix}_${item.id}" data-field-type="${item.field_type}" data-is-option-exist="${item.is_option}" data-min-option="${item.min_option}" data-is-repeater-exist="${item.is_repeater}" data-is-param-exist="${item.is_param_exist}">${_fieldName}<span><i class="fa fa-plus"></i></span></li>`;
+      });
+    }
+    var eleOnexAcfManagerModal = document.getElementById('onexAcfManagerModal');
+    eleOnexAcfManagerModal.addEventListener('shown.bs.modal', function () {
+      $('#onexAcfItems').html(onexAcfItemsFieldsHtml);
+      $('#onexAcfFieldSettings').css({'min-height': parseInt($('#onexAcfItems').innerHeight() - 10) + 'px'});
+      $('#onexAcfFieldSettings').html('<div class="onex-acf-init-text"><span>Hey!<br/>CREATE YOUR ACF</span></div');
+      $("#onexAcfManagerModalFrm").validate().resetForm();
+      $("#onexAcfManagerModalFrm")[0].reset();
+      $('#onexAcfName').val('').focus().valid();
+    });
+    $('body').on('click', '#onexAcfActionBtn', function () {
+      $('#onexAcfManagerModal').modal('show');
+    });
+    $('body').on('click', '.onex-acf-item', function () {
+      let _onexUiElemContainer = '';
+      let _onexUiElem = '';
+      let _this = $(this);
+      let _thisId = _this.attr('id');
+      let _thisField = _thisId.split('_')[1];
+      let _thisType = _this.data('field-type');
+      let _thisOptionExist = _this.data('is-option-exist');
+      let _thisText = _this.text();
+      let _thisRowId = "settingsRow_" + _thisField + "_" + acfItemClickTime;
+      let _minOption = _this.data('min-option');
+      let _thisRepeaterExist = _this.data('is-repeater-exist');
+      let _thisParamExist = _this.data('is-param-exist');
+      _onexUiElemContainer = `<div class="row onex-acf-field-settings-rowbox" id="${_thisRowId}">_ONEX_ACF_FIELD_SETT_</div>`;
+      _onexUiElem = `
+        <div class="col-sm-6 mb-1"><span class="badge bg-primary">${_thisText}</span></div>
+        <div class="col-sm-6 mb-1"></div>
+        <div class="col-sm-4">
+          <div class="form-group">
+            <label class="onex-field-settings-label" for="field_label_${acfItemClickTime}">Field Lable Name: <em>*</em></label>
+            <input type="text" name="field_label_name[${acfItemClickTime}]" id="field_label_${acfItemClickTime}" class="form-control field-label-name" placeholder="Lable Name" required="required" />
+          </div>
+        </div>
+        <div class="col-sm-4">
+          <div class="form-group">
+            <label class="onex-field-settings-key" for="field_key_${acfItemClickTime}">Field Key Name: <em>*</em></label>
+            <input type="text" name="field_key_name[${acfItemClickTime}]" id="field_key_${acfItemClickTime}" class="form-control field-key-name" placeholder="Key Name" required="required" />
+            <input type="hidden" name="field_type[${acfItemClickTime}]" id="field_type_${acfItemClickTime}" class="field-type" value="${_thisType}" />
+            <input type="hidden" name="field_option[${acfItemClickTime}]" id="field_option_${acfItemClickTime}" class="field-option" value="${_thisOptionExist}" />
+            <input type="hidden" name="field_param[${acfItemClickTime}]" id="field_param_${acfItemClickTime}" class="field-param" value="${_thisParamExist}" />
+          </div>
+        </div>
+        <div class="col-sm-2">
+          <div class="form-group">
+            <div class="settings-checkbox">
+              <div><input type="checkbox" name="field_is_required[${acfItemClickTime}]" id="field_required_${acfItemClickTime}" class="field-is-required" /> <lable for="field_required_${acfItemClickTime}">Is Required</label></div>`;
+              if (_thisRepeaterExist) {
+                _onexUiElem += `
+                  <div><input type="checkbox" name="field_is_repeater[${acfItemClickTime}]" id="field_repeater_${acfItemClickTime}" class="field-is-repeater" /> <lable for="field_repeater_${acfItemClickTime}">Is Repeater</label></div>
+                `;
+              }
+    _onexUiElem += `
+              </div>
+          </div>
+        </div>
+        <div class="col-sm-2">
+          <div class="form-group">
+            <div class="settings-delete">
+              <a href="javascript:void(0);" class="remove-field-settings" id="rm_${_thisRowId}"><i class="fa fa-trash"></i></a>
+            </div>
+          </div>
+        </div>
+      `;
+      if (_thisOptionExist && _minOption > 0) {
+        let _optionHtmlContainer = '';
+        let _optionHtmlRow = '';
+        _optionHtmlContainer = `<div class="col-sm-12 mt-1">_ONEX_ACF_OPTION_FIELD_SETT_</div>`;
+        acfAddMoreClickTime = _minOption;
+        for (var i = 0; i < _minOption; i++) {
+          if (i == 0) {
+            _optionHtmlRow += `
+              <div class="row option-area mt-1">
+                <label class="col-sm-1">Value:</label>
+                <div class="col-sm-3">
+                  <input type="text" name="option_value[${acfItemClickTime}][${i}]" id="fov_${acfItemClickTime}_${_thisRowId}" class="form-control form-control-sm field-option-value" placeholder="Option Value" required="required" />
+                </div>
+                <label class="col-sm-1">Text:</label>
+                <div class="col-sm-3">
+                  <input type="text" name="option_text[${acfItemClickTime}][${i}]" id="fot_${acfItemClickTime}_${_thisRowId}" class="form-control form-control-sm field-option-text" placeholder="Option Text" required="required" />
+                </div>
+                <div class="col-sm-2">
+                  <a href="javascript:void(0);" class="onex-option-add-more-btn" id="fopAddMoreBtn_${acfItemClickTime}" data-field-option-id="${_thisRowId}"><i class="fa fa-plus-square-o"></i></a>
+                </div>
+                <div class="col-sm-2"></div>
+              </div>
+            `;
+          } else {
+            _optionHtmlRow += `
+              <div class="row option-area mt-1">
+                <label class="col-sm-1">Value:</label>
+                <div class="col-sm-3">
+                  <input type="text" name="option_value[${acfItemClickTime}][${i}]" id="fov_${acfItemClickTime}_${_thisRowId}" class="form-control form-control-sm field-option-value" placeholder="Option Value" required="required" />
+                </div>
+                <label class="col-sm-1">Text:</label>
+                <div class="col-sm-3">
+                  <input type="text" name="option_text[${acfItemClickTime}][${i}]" id="fot_${acfItemClickTime}_${_thisRowId}" class="form-control form-control-sm field-option-text" placeholder="Option Text" required="required" />
+                </div>
+                <div class="col-sm-2"></div>
+                <div class="col-sm-2"></div>
+              </div>
+            `;
+          }
+        }
+        let _finalOptionSettingsHtml = _optionHtmlContainer.replace('_ONEX_ACF_OPTION_FIELD_SETT_', _optionHtmlRow);
+        _finalOptionSettingsHtml += `<div id="fieldOption_${_thisRowId}"></div>`;
+        _onexUiElem += _finalOptionSettingsHtml;
+      }
+      if (_thisParamExist) {
+        _onexUiElem += `
+          <div class="col-sm-12 mt-1">
+            <div class="row param-area mt-1">
+              <label class="col-sm-1">Min:</label>
+              <div class="col-sm-3">`;
+                if (_thisType == 'date_input') {
+                  _onexUiElem += `
+                    <input type="date" name="param_min_value[${acfItemClickTime}]" id="fminv_${acfItemClickTime}_${_thisRowId}" class="form-control form-control-sm param-min-value" placeholder="Min Value" />`;
+                } else {
+                  _onexUiElem += `
+                    <input type="number" name="param_min_value[${acfItemClickTime}]" id="fminv_${acfItemClickTime}_${_thisRowId}" class="form-control form-control-sm param-min-value" placeholder="Min Value" />`;
+                }
+              _onexUiElem += `</div>
+              <label class="col-sm-1">Max:</label>
+              <div class="col-sm-3">`;
+                if (_thisType == 'date_input') {
+                  _onexUiElem += `
+                    <input type="date" name="param_max_value[${acfItemClickTime}]" id="fmaxv_${acfItemClickTime}_${_thisRowId}" class="form-control form-control-sm param-max-value" placeholder="Max Value"/>`;
+                } else {
+                  _onexUiElem += `
+                    <input type="number" name="param_max_value[${acfItemClickTime}]" id="fmaxv_${acfItemClickTime}_${_thisRowId}" class="form-control form-control-sm param-max-value" placeholder="Max Value" />`;
+                }
+              _onexUiElem += `</div>
+              <div class="col-sm-2"></div>
+              <div class="col-sm-2"></div>
+            </div>
+          </div>
+        `;
+      }
+      let _finalSettingsHtml = _onexUiElemContainer.replace('_ONEX_ACF_FIELD_SETT_', _onexUiElem);
+      if (acfItemClickTime == 0) {
+        $('#onexAcfFieldSettings').html('');
+      }
+      acfItemClickTime++;
+      $('#onexAcfFieldSettings').append(_finalSettingsHtml);
+      if (acfItemClickTime > 1) {
+        $('#onexAcfManagerModalBody').animate({
+          scrollTop: $("#" + _thisRowId).offset().top + 'px'
+        }, 600);
+      }
+      addRowValidationRules();
+    });
+    $('body').on('click', '.onex-option-add-more-btn', function () {
+      let _getAddMoreId = $(this).attr('id');
+      let _getAddMoreOptionId = $(this).data('field-option-id');
+      let _optionRow = "optionRow_" + acfAddMoreClickTime + "_" + _getAddMoreOptionId;
+      let _optionHtml = `
+        <div class="row option-area onex-acf-option-box mt-1" id="${_optionRow}">
+          <label class="col-sm-1">Value:</label>
+          <div class="col-sm-3">
+            <input type="text" name="option_value[${acfItemClickTime}][${acfAddMoreClickTime}]" id="fov_${acfItemClickTime}${acfAddMoreClickTime}_${_getAddMoreOptionId}" class="form-control form-control-sm field-option-value" placeholder="Option Value" required="required" />
+          </div>
+          <label class="col-sm-1">Text:</label>
+          <div class="col-sm-3">
+            <input type="text" name="option_text[${acfItemClickTime}][${acfAddMoreClickTime}]" id="fot_${acfItemClickTime}${acfAddMoreClickTime}_${_getAddMoreOptionId}" class="form-control form-control-sm field-option-text" placeholder="Option Text" required="required" />
+          </div>
+          <div class="col-sm-2">
+            <a href="javascript:void(0);" class="onex-remove-option-btn" id="fopRemoveBtn_${acfAddMoreClickTime}" data-option="${_getAddMoreOptionId}"><i class="fa fa-minus-square-o"></i></a>
+          </div>
+          <div class="col-sm-2"></div>
+        </div>
+      `;
+      acfAddMoreClickTime++;
+      $('#fieldOption_' + _getAddMoreOptionId).append(_optionHtml);
+    });
+    $('body').on('click', '.onex-remove-option-btn', function () {
+      $(this).parents('.onex-acf-option-box').remove();
+    });
+    $('body').on('click', '.remove-field-settings', function () {
+      $(this).parents('.onex-acf-field-settings-rowbox').remove();
+    });
+    $('body').on('click', '#onexAcfManagerSaveChangesBtn', function () {
+      if ($('#onexAcfManagerModalFrm').valid()) {
+        onexGenerateAcfSettinsJson();
+        $('#onexAcfManagerModal').modal('hide');
+        acfItemClickTime = 0;
+        acfAddMoreClickTime = 0;
+        Swal.fire({
+          title: 'ACF Created Successfully',
+          icon: 'success',
+          html: '',
+          buttonsStyling: false,
+          customClass: {
+            confirmButton: "btn btn-primary"
+          },
+          allowOutsideClick: false,
+          allowEscapeKey: false,
+          confirmButtonText: "Check ACF List"
+        });
+      }
+    });
+
+    $('#onexAcfManagerModalFrm').validate({
+      debug: false,
+      errorElement: 'div',
+      errorClass : 'is-invalid',
+      validClass: "is-valid",
+      ignore: '.ignore, :hidden',
+      onsubmit: false,
+      onkeyup: false,
+      onclick: false,
+      onfocusout: false,
+      focusInvalid: false,
+      rules: {
+        "field_label_name[]": {
+          required: true
+        },
+        "field_key_name[]": {
+          required: true
+        },
+        "option_value[][]": {
+          required: true
+        },
+        "option_text[][]": {
+          required: true
+        },
+        "param_min_value[]": {
+          required: false
+        },
+        "param_max_value[]": {
+          required: false
+        }
+      },
+      errorPlacement: function (error, element) {
+      },
+      highlight: function (element, errorClass, validClass) {
+        $(element).addClass(errorClass).removeClass(validClass);
+      },
+      unhighlight: function (element, errorClass, validClass) {
+        if ($(element).val() != '') {
+          $(element).addClass(validClass).removeClass(errorClass);
+        }
+      },
+      invalidHandler: function(event, validator) {
+        var errors = validator.numberOfInvalids();
+        if (errors) {                    
+          validator.errorList[0].element.focus();
+        }
+      }
+    });
+  });
+
+
+  function addRowValidationRules() {
+    $('.field-label-name').each(function (i, e) {
+      $(e).rules("add", {required: true})
+    });
+    $('.field-key-name').each(function (i, e) {
+      $(e).rules("add", {required: true})
+    });
+    $('.field-option-value').each(function (i, e) {
+      $(e).rules("add", {required: true})
+    });
+    $('.field-option-text').each(function (i, e) {
+      $(e).rules("add", {required: true})
+    });
+  }
+
+  function onexGenerateAcfSettinsJson() {
+    var acfSettingsJson = [];
+    var acfFields = [];
+    var _getAcfName = $('#onexAcfName').val();
+    acfSettingsJson.push({"acf_name": _getAcfName});
+    var _getAcfFields = $('.onex-acf-field-settings-rowbox');
+    if (_getAcfFields.length) {
+      _getAcfFields.each(function () {
+        var item = {};
+        var _thisAcfId = $(this).attr('id');
+        item['field_label_name'] = $('#' + _thisAcfId).find('.field-label-name').val();
+        item['field_key_name'] = $('#' + _thisAcfId).find('.field-key-name').val();
+        item['field_type'] = $('#' + _thisAcfId).find('.field-type').val();
+        item['field_is_required'] = $('#' + _thisAcfId).find('.field-is-required').is(':checked');
+        item['field_is_repeater'] = $('#' + _thisAcfId).find('.field-is-repeater').is(':checked');
+        item['field_option_exist'] = ($('#' + _thisAcfId).find('.field-option').val() == 'true') ? true : false;
+
+        var _getOptionValues = $('#' + _thisAcfId).find('.field-option-value');
+        var _getOptionTexts = $('#' + _thisAcfId).find('.field-option-text');
+
+        if (item['field_option_exist'] && _getOptionValues.length && _getOptionTexts.length && (_getOptionValues.length == _getOptionTexts.length)) {
+          var optionValues = [];
+          _getOptionValues.each(function (i) {
+            var eachOptions = {};
+            eachOptions['value'] = $(this).val();
+            _getOptionTexts.each(function (j) {
+              if (i == j) {
+                eachOptions['text'] = $(this).val();
+              }
+            });
+            optionValues.push(eachOptions);
+          });
+          item['option_values'] = optionValues;
+        }
+
+        item['field_param_exist'] = ($('#' + _thisAcfId).find('.field-param').val() == 'true') ? true : false;
+        if (item['field_param_exist']) {
+          var paramValues = {};
+          paramValues['min_value'] = $('#' + _thisAcfId).find('.param-min-value').val();
+          paramValues['max_value'] = $('#' + _thisAcfId).find('.param-max-value').val();
+          item['param_values'] = paramValues;
+        }
+
+        acfFields.push(item);
+      });
+    }
+    acfSettingsJson.push({"acf_fields": acfFields});
+    console.log(JSON.stringify(acfSettingsJson));
+  }
+</script>
+</body>
+</html>
